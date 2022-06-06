@@ -121,7 +121,7 @@ const getBackToSignInLink = ({settings, appState}) => {
   const link = {};
 
   // embedded scenarios
-  if (settings?.get('useInteractionCodeFlow')) {
+  if (settings?.get('oauth2Enabled')) {
     link.clickHandler = () => {
       appState.trigger('restartLoginFlow');
     };

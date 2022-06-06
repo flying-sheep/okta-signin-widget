@@ -174,8 +174,8 @@ const local: Record<string, ModelProperty> = {
   //Email verify callback
   otp: 'string',
 
-  //Interaction code flow
-  useInteractionCodeFlow: ['boolean', false, true]
+  //Support classic engine
+  useClassicEngine: ['boolean', false, false]
 };
 
 const derived: Record<string, ModelProperty>  = {
@@ -269,10 +269,16 @@ const derived: Record<string, ModelProperty>  = {
         ? defaultCountryCode : 'US';
     },
   },
+  interactionCodeFlow: {
+    deps: ['oauth2Enabled', 'useClassicEngine'],
+    fn: function(oauth2Enabled, useClassicEngine) {
+      return oauth2Enabled && !useClassicEngine;
+    }
+  },
   mode: {
-    deps: ['useInteractionCodeFlow', 'codeChallenge'],
-    fn: function(useInteractionCodeFlow, codeChallenge) {
-      if (useInteractionCodeFlow && codeChallenge) {
+    deps: ['interactionCodeFlow', 'codeChallenge'],
+    fn: function(interactionCodeFlow, codeChallenge) {
+      if (interactionCodeFlow && codeChallenge) {
         return 'remediation';
       }
       return 'relying-party';
@@ -286,9 +292,9 @@ const derived: Record<string, ModelProperty>  = {
     cache: true,
   },
   oieEnabled: {
-    deps: ['stateToken', 'proxyIdxResponse', 'useInteractionCodeFlow'],
-    fn: function(stateToken, proxyIdxResponse, useInteractionCodeFlow) {
-      return stateToken || proxyIdxResponse || useInteractionCodeFlow;
+    deps: ['stateToken', 'proxyIdxResponse', 'interactionCodeFlow'],
+    fn: function(stateToken, proxyIdxResponse, interactionCodeFlow) {
+      return stateToken || proxyIdxResponse || interactionCodeFlow;
     },
     cache: true,
   },

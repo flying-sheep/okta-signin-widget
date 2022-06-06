@@ -149,8 +149,7 @@ describe('OktaSignIn v2 bootstrap', function() {
       const form = new IdentifierForm($sandbox);
       setupLoginFlow({
         clientId: 'someClientId',
-        redirectUri: 'http://0.0.0.0:9999',
-        useInteractionCodeFlow: true
+        redirectUri: 'http://0.0.0.0:9999'
       }, responses);
       jest.spyOn(signIn.authClient.transactionManager, 'exists').mockReturnValue(false);
       render();
