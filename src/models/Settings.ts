@@ -173,6 +173,9 @@ const local: Record<string, ModelProperty> = {
 
   //Email verify callback
   otp: 'string',
+
+  //Interaction code flow
+  useInteractionCodeFlow: ['boolean', false, true]
 };
 
 const derived: Record<string, ModelProperty>  = {

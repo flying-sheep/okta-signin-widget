@@ -27,6 +27,7 @@ function setup(settings, res) {
       {
         el: $sandbox,
         baseUrl: baseUrl,
+        useInteractionCodeFlow: false,
         features: { securityImage: true },
         authClient: authClient,
       },

@@ -297,7 +297,8 @@ var signIn = new OktaSignIn(
   {
     baseUrl: 'https://{yourOktaDomain}',
     clientId: '{{clientId of your OIDC app}}',
-    redirectUri: '{{redirectUri configured in OIDC app}}'
+    redirectUri: '{{redirectUri configured in OIDC app}}',
+    useInteractionCodeFlow: false
   }
 );
 
@@ -319,6 +320,7 @@ var signIn = new OktaSignIn(
     baseUrl: 'https://{yourOktaDomain}',
     clientId: '{{clientId of your OIDC app}}',
     redirectUri: '{{redirectUri configured in OIDC app}}',
+    useInteractionCodeFlow: false,
     authParams: {
       pkce: false,
     }
@@ -336,6 +338,7 @@ var signIn = new OktaSignIn(
     baseUrl: 'https://{yourOktaDomain}',
     clientId: '{{clientId of your OIDC app}}',
     redirectUri: '{{redirectUri configured in OIDC app}}',
+    useInteractionCodeFlow: false,
     authParams: {
       pkce: false,
       responseType: 'code'
@@ -384,7 +387,7 @@ signIn.renderEl({
 
 ### Interaction Code Flow
 
-Support for the interaction code grant is available for organizations with the [Identity Engine](#okta-identity-engine) feature enabled. Please visit [Migrating to OIE](https://developer.okta.com/docs/guides/migrate-to-oie/) for more details.
+The widget will run against the [Identity Engine](#okta-identity-engine) by default, using the [interaction code][] flow. Support for the `Classic Engine` is still available by setting `useInteractionCodeFlow` to `false`. (Please visit [Migrating to OIE](https://developer.okta.com/docs/guides/migrate-to-oie/) for more details on migrating to [Identity Engine][].
 
 Documentation for configuring the Okta Sign-in Widget for the [interaction code][] flow is in the [README](https://github.com/okta/okta-signin-widget/blob/master/README.md).
 
@@ -411,7 +414,8 @@ var signIn = new OktaSignIn(
   {
     baseUrl: 'https://{yourOktaDomain}',
     clientId: '{{clientId of your OIDC app}}',
-    redirectUri: '{{redirectUri configured in OIDC app}}'
+    redirectUri: '{{redirectUri configured in OIDC app}}',
+    useInteractionCodeFlow: false
   }
 );
 ```
@@ -439,6 +443,7 @@ var signIn = new OktaSignIn({
   clientId: '{{clientId of your OIDC app}}',
   redirectUri: '{{redirectUri configured in OIDC app}}',
   baseUrl: ‘https://{yourOktaDomain},
+  useInteractionCodeFlow: false,
   authParams: {
     issuer: 'https://{yourOktaDomain}/oauth2/default'
   }
@@ -471,7 +476,8 @@ var signIn = new OktaSignIn({
   el: '#osw-container',
   clientId: '{{myClientId}}',
   redirectUri: '{{redirectUri configured in OIDC app}}',
-  baseUrl: 'https://{yourOktaDomain}'
+  baseUrl: 'https://{yourOktaDomain}',
+  useInteractionCodeFlow: false
 });
 
 signIn.showSignInToGetTokens({
@@ -500,6 +506,7 @@ var signIn = new OktaSignIn({
   baseUrl: 'https://{yourOktaDomain}',
   clientId: '{{clientId of your OIDC app}}',
   redirectUri: '{{redirectUri configured in OIDC app}}',
+  useInteractionCodeFlow: false,
   authParams: {
     pkce: false,
     responseType: 'code'
@@ -668,50 +675,6 @@ var signIn = new OktaSignIn(config);
 // signIn.authClient.options.clientId === '{yourClientId}'
 ```
 
-### before
-
-> **Note**: This function is only supported when using the [Okta Identity Engine](#okta-identity-engine)
-
-Adds an asynchronous [hook](#hooks) function which will execute before a view is rendered.
-
-```javascript
-var config = {
-  baseUrl: 'https://{yourOktaDomain}',
-  authParams: {
-    issuer: 'https://{yourOktaDomain}/oauth2/default',
-    clientId: '{yourClientId}'  
-  },
-  useInteractionCodeFlow: true
-};
-var signIn = new OktaSignIn(config);
-signIn.before('success-redirect', async () => {
-  // custom logic can go here. when the function resolves, execution will continue.
-});
-
-```
-
-### after
-
-> **Note**: This function is only supported when using the [Okta Identity Engine](#okta-identity-engine)
-
-Adds an asynchronous [hook](#hooks) function which will execute after a view is rendered.
-
-```javascript
-var config = {
-  baseUrl: 'https://{yourOktaDomain}',
-  authParams: {
-    issuer: 'https://{yourOktaDomain}/oauth2/default',
-    clientId: '{yourClientId}'  
-  },
-  useInteractionCodeFlow: true
-};
-var signIn = new OktaSignIn(config);
-signIn.after('identify', async () => {
-  // custom logic can go here. when the function resolves, execution will continue.
-});
-
-```
-
 ## Configuration
 
 For non-OIDC applications, the only required configuration option is `baseUrl`. All others are optional.
@@ -744,11 +707,15 @@ var signIn = new OktaSignIn(config);
 
 For OIDC applications, you need to set the `clientId` and `redirectUri`. If `issuer` is not set, it will be inferred from `baseUrl`.
 
+**Note:** 
+The widget now uses [Identity Engine][] by default. To continue using the `Classic Engine`, you must set `useInteractionCodeFlow` to `false`.
+
 ```javascript
 var config = {
   baseUrl: 'https://{yourOktaDomain}', // issuer will be https://{yourOktaDomain}/oauth2/default
   clientId: '{{clientId of your OIDC app}}',
-  redirectUri: '{{redirectUri configured in OIDC app}}'
+  redirectUri: '{{redirectUri configured in OIDC app}}',
+  useInteractionCodeFlow: false
 }
 ```
 
@@ -765,7 +732,8 @@ A different [Custom Authorization Server][] can be specified by setting the `iss
 var config = {
   issuer: 'https://{yourOktaDomain}/oauth2/custom',
   clientId: '{{clientId of your OIDC app}}',
-  redirectUri: '{{redirectUri configured in OIDC app}}'
+  redirectUri: '{{redirectUri configured in OIDC app}}',
+  useInteractionCodeFlow: false
 }
 ```
 
@@ -778,10 +746,19 @@ var config = {
   issuer: 'https://{yourOktaDomain}',
   clientId: '{{clientId of your OIDC app}}',
   redirectUri: '{{redirectUri configured in OIDC app}}',
+  useInteractionCodeFlow: false
 }
 ```
 
 ### Basic config options
+
+- **useInteractionCodeFlow**
+
+Defaults to `true`. This option enables (or disables) the [interaction code][] flow in the widget. This value should be set to `false` to continue running against the `Classic Engine`. 
+
+Please visit [Migrating to OIE](https://developer.okta.com/docs/guides/migrate-to-oie/) for more details on migrating to [Identity Engine][].
+
+Documentation for configuring the Okta Sign-in Widget for the [interaction code][] flow is in the [README](https://github.com/okta/okta-signin-widget/blob/master/README.md).
 
 - **baseUrl:** The base URL for your Okta organization
 

@@ -38,6 +38,7 @@ describe('OIDC flows', () => {
       config = {
         baseUrl: WIDGET_TEST_SERVER,
         redirectUri: 'http://localhost:3000/done',
+        useInteractionCodeFlow: false,
         authParams: {
           pkce: false,
           scopes: ['openid', 'email', 'profile', 'address', 'phone']

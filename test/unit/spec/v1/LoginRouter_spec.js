@@ -84,6 +84,7 @@ Expect.describe('v1/LoginRouter', function() {
         {
           el: $sandbox,
           baseUrl: baseUrl,
+          useInteractionCodeFlow: false,
           authClient: authClient,
         },
         settings

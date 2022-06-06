@@ -325,6 +325,7 @@ describe('OktaSignIn object API', function() {
   function createWidget(options = {}) {
     signIn = new Widget(Object.assign({
       baseUrl: url,
+      useInteractionCodeFlow: false,
       features: {
         router: true,
       },
