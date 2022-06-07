@@ -7,13 +7,13 @@ import success from '../../../playground/mocks/data/idp/idx/success';
 
 const identifyMockwithHCaptcha = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(xhrIdentifyWithPasswordWithHCaptcha)
+  .respond(xhrIdentifyWithPasswordWithHCaptcha, 200, { 'Access-Control-Allow-Origin': '*' })
   .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(success);
   
 const identifyMockWithReCaptcha = RequestMock()
   .onRequestTo('http://localhost:3000/idp/idx/introspect')
-  .respond(xhrIdentifyWithPasswordWithReCaptcha)
+  .respond(xhrIdentifyWithPasswordWithReCaptcha,  200, { 'Access-Control-Allow-Origin': '*' })
   .onRequestTo('http://localhost:3000/idp/idx/identify')
   .respond(success);  
 
@@ -48,7 +48,7 @@ async function setup(t) {
   return identityPage;
 }
 
-test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha)('should sign in with hCaptcha enabled', async t => {
+test.requestHooks(identifyRequestLogger, identifyMockwithHCaptcha).only('should sign in with hCaptcha enabled', async t => {
   const identityPage = await setup(t);
 
   await identityPage.fillIdentifierField('Test Identifier');
