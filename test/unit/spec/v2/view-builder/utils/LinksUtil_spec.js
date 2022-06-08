@@ -124,7 +124,7 @@ describe('v2/utils/LinksUtil', function() {
     it('returns `href` with value of `baseUrl`', () => {
       const settings = new Settings({
         baseUrl: 'https://foo',
-        useInteractionCodeFlow: false
+        useClassicEngine: true
       });
       const result = getBackToSignInLink({appState, settings});
       expect(result).toBeInstanceOf(Array);
@@ -140,7 +140,7 @@ describe('v2/utils/LinksUtil', function() {
     it('returns `clickHandler` instead of `href` whe using interactionCodeFlow', () => {
       const settings = new Settings({
         baseUrl: 'https://foo',
-        useInteractionCodeFlow: true
+        clientId: 'abc'
       });
       const result = getBackToSignInLink({appState, settings});
       expect(result).toBeInstanceOf(Array);

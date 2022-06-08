@@ -29,6 +29,7 @@ const UnsupportedBrowserError = Errors.UnsupportedBrowserError;
 const assetBaseUrlTpl = hbs('https://global.oktacdn.com/okta-signin-widget/{{version}}');
 
 const local: Record<string, ModelProperty> = {
+  authClient: ['object', false, undefined],
   baseUrl: ['string', true],
   recoveryToken: ['string', false, undefined],
   stateToken: ['string', false, undefined],
@@ -285,8 +286,11 @@ const derived: Record<string, ModelProperty>  = {
     }
   },
   oauth2Enabled: {
-    deps: ['clientId', 'authScheme'],
-    fn: function(clientId, authScheme) {
+    deps: ['clientId', 'authScheme', 'authClient'],
+    fn: function(clientId, authScheme, authClient) {
+       if (!clientId && authClient) {
+        clientId = authClient.options.clientId;
+      }
       return (!!clientId) && authScheme.toLowerCase() === 'oauth2';
     },
     cache: true,
@@ -389,10 +393,13 @@ export default class Settings extends Model {
 
   initialize(options) {
     const { colors } = options;
+    const { authClient } = options;
+
+    this.setAcceptLanguageHeader(authClient);
+
     let { baseUrl } = options;
     if (!baseUrl) {
       // infer baseUrl from the issuer
-      const { authClient } = options;
       if (authClient) {
         baseUrl = authClient.getIssuerOrigin();
       } else {
@@ -421,12 +428,12 @@ export default class Settings extends Model {
   }
 
   setAuthClient(authClient) {
+    this.set('authClient', authClient);
     this.setAcceptLanguageHeader(authClient);
-    this.authClient = authClient;
   }
 
   getAuthClient() {
-    return this.authClient;
+    return this.get('authClient');
   }
 
   set(...args: any[]) {

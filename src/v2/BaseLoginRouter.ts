@@ -71,8 +71,7 @@ class BaseLoginRouter extends Router<Settings, BaseLoginRouterOptions> {
       };
     }
 
-    this.settings = new Settings(_.omit(options, 'el', 'authClient', 'hooks'), { parse: true });
-    this.settings.setAuthClient(options.authClient);
+    this.settings = new Settings(_.omit(options, 'el', 'hooks'), { parse: true });
 
     if (!options.el) {
       this.settings.callGlobalError(new Errors.ConfigError(loc('error.required.el')));
