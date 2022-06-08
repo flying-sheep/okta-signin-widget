@@ -298,7 +298,7 @@ var signIn = new OktaSignIn(
     baseUrl: 'https://{yourOktaDomain}',
     clientId: '{{clientId of your OIDC app}}',
     redirectUri: '{{redirectUri configured in OIDC app}}',
-    useInteractionCodeFlow: false
+    useClassicEngine: true
   }
 );
 
@@ -320,7 +320,7 @@ var signIn = new OktaSignIn(
     baseUrl: 'https://{yourOktaDomain}',
     clientId: '{{clientId of your OIDC app}}',
     redirectUri: '{{redirectUri configured in OIDC app}}',
-    useInteractionCodeFlow: false,
+    useClassicEngine: true,
     authParams: {
       pkce: false,
     }
@@ -338,7 +338,7 @@ var signIn = new OktaSignIn(
     baseUrl: 'https://{yourOktaDomain}',
     clientId: '{{clientId of your OIDC app}}',
     redirectUri: '{{redirectUri configured in OIDC app}}',
-    useInteractionCodeFlow: false,
+    useClassicEngine: true,
     authParams: {
       pkce: false,
       responseType: 'code'
@@ -387,7 +387,7 @@ signIn.renderEl({
 
 ### Interaction Code Flow
 
-The widget will run against the [Identity Engine](#okta-identity-engine) by default, using the [interaction code][] flow. Support for the `Classic Engine` is still available by setting `useInteractionCodeFlow` to `false`. (Please visit [Migrating to OIE](https://developer.okta.com/docs/guides/migrate-to-oie/) for more details on migrating to [Identity Engine][].
+The widget will run against the [Identity Engine](#okta-identity-engine) by default, using the [interaction code][] flow. Support for the `Classic Engine` is still available by setting `useClassicEngine` to `true`. (Please visit [Migrating to OIE](https://developer.okta.com/docs/guides/migrate-to-oie/) for more details on migrating to [Identity Engine][].
 
 Documentation for configuring the Okta Sign-in Widget for the [interaction code][] flow is in the [README](https://github.com/okta/okta-signin-widget/blob/master/README.md).
 
@@ -415,7 +415,7 @@ var signIn = new OktaSignIn(
     baseUrl: 'https://{yourOktaDomain}',
     clientId: '{{clientId of your OIDC app}}',
     redirectUri: '{{redirectUri configured in OIDC app}}',
-    useInteractionCodeFlow: false
+    useClassicEngine: true
   }
 );
 ```
@@ -443,7 +443,7 @@ var signIn = new OktaSignIn({
   clientId: '{{clientId of your OIDC app}}',
   redirectUri: '{{redirectUri configured in OIDC app}}',
   baseUrl: ‘https://{yourOktaDomain},
-  useInteractionCodeFlow: false,
+  useClassicEngine: true,
   authParams: {
     issuer: 'https://{yourOktaDomain}/oauth2/default'
   }
@@ -477,7 +477,7 @@ var signIn = new OktaSignIn({
   clientId: '{{myClientId}}',
   redirectUri: '{{redirectUri configured in OIDC app}}',
   baseUrl: 'https://{yourOktaDomain}',
-  useInteractionCodeFlow: false
+  useClassicEngine: true
 });
 
 signIn.showSignInToGetTokens({
@@ -506,7 +506,7 @@ var signIn = new OktaSignIn({
   baseUrl: 'https://{yourOktaDomain}',
   clientId: '{{clientId of your OIDC app}}',
   redirectUri: '{{redirectUri configured in OIDC app}}',
-  useInteractionCodeFlow: false,
+  useClassicEngine: true,
   authParams: {
     pkce: false,
     responseType: 'code'
@@ -708,14 +708,14 @@ var signIn = new OktaSignIn(config);
 For OIDC applications, you need to set the `clientId` and `redirectUri`. If `issuer` is not set, it will be inferred from `baseUrl`.
 
 **Note:** 
-The widget now uses [Identity Engine][] by default. To continue using the `Classic Engine`, you must set `useInteractionCodeFlow` to `false`.
+The widget now uses [Identity Engine][] by default. To continue using the `Classic Engine`, you must set `useClassicEngine` to `true`.
 
 ```javascript
 var config = {
   baseUrl: 'https://{yourOktaDomain}', // issuer will be https://{yourOktaDomain}/oauth2/default
   clientId: '{{clientId of your OIDC app}}',
   redirectUri: '{{redirectUri configured in OIDC app}}',
-  useInteractionCodeFlow: false
+  useClassicEngine: true
 }
 ```
 
@@ -733,7 +733,7 @@ var config = {
   issuer: 'https://{yourOktaDomain}/oauth2/custom',
   clientId: '{{clientId of your OIDC app}}',
   redirectUri: '{{redirectUri configured in OIDC app}}',
-  useInteractionCodeFlow: false
+  useClassicEngine: true
 }
 ```
 
@@ -746,15 +746,15 @@ var config = {
   issuer: 'https://{yourOktaDomain}',
   clientId: '{{clientId of your OIDC app}}',
   redirectUri: '{{redirectUri configured in OIDC app}}',
-  useInteractionCodeFlow: false
+  useClassicEngine: true
 }
 ```
 
 ### Basic config options
 
-- **useInteractionCodeFlow**
+- **useClassicEngine**
 
-Defaults to `true`. This option enables (or disables) the [interaction code][] flow in the widget. This value should be set to `false` to continue running against the `Classic Engine`. 
+Defaults to `false`. By default, the widget will use the [interaction code][] flow on the [Identity Engine][]. If `useClassicEngine` option is set to `true`,  the `Classic Engine` will be used instead.  This option, along with support for the `Classic Engine`, will be removed in a future widget version. All customers are encouraged to migrate from the `Classic Engine` to the [Identity Engine][].
 
 Please visit [Migrating to OIE](https://developer.okta.com/docs/guides/migrate-to-oie/) for more details on migrating to [Identity Engine][].
 

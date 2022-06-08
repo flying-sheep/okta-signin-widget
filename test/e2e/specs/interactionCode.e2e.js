@@ -18,7 +18,7 @@ describe('Interaction code flows', () => {
       redirectUri: 'http://localhost:3000/done',
       el: '#okta-login-container',
       clientId: WIDGET_SPA_CLIENT_ID,
-      useInteractionCodeFlow: true,
+      useClassicEngine: true,
       scopes: ['openid', 'email', 'profile']
     };
     console.log(JSON.stringify(config)); // for manual testing in browser
@@ -46,7 +46,6 @@ describe('Interaction code flows', () => {
         clientId: WIDGET_SPA_CLIENT_ID,
         responseType: 'code',
         redirectUri: 'http://localhost:3000/done',
-        useInteractionCodeFlow: true,
         authParams: {
           pkce: true,
           display: 'page',

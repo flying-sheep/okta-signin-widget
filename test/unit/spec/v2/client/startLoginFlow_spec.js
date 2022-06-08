@@ -82,7 +82,6 @@ describe('v2/client/startLoginFlow', () => {
 
   it('shall do email verify callback when "otp" is defined', async () => {
     const { settings, start, proceed } = testContext;
-    settings.set('useInteractionCodeFlow', true);
     settings.set('otp', 'abc');
     const result = await startLoginFlow(testContext.settings);
     expect(result).toEqual('fake emailVerifyCallback response');

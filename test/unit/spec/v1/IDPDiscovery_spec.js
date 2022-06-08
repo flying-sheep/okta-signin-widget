@@ -110,7 +110,7 @@ function setupSocial(settings) {
       {
         clientId: 'someClientId',
         redirectUri: 'https://0.0.0.0:9999',
-        useInteractionCodeFlow: false,
+        useClassicEngine: true,
         authScheme: 'OAUTH2',
         authParams: {
           responseType: 'id_token',

@@ -31,7 +31,7 @@ describe('CSP', () => {
         baseUrl: WIDGET_TEST_SERVER,
         clientId,
         redirectUri: 'http://localhost:3000/done',
-        useInteractionCodeFlow: false,
+        useClassicEngine: true,
         authParams: {
           pkce: false,
           responseType: 'id_token',

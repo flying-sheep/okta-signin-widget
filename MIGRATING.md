@@ -9,12 +9,14 @@ This library uses semantic versioning and follows Okta's [library version policy
 
 ## Migrating from 6.x to 7.x
 
-### `useInteractionCodeFlow` is `true` by default
+### Identity Engine is on by default
 
+- `useInteractionCodeFlow` option is removed
+- `useClassicEngine` option is added
 
-The widget will run against the [Identity Engine][] by default, using the [interaction code][] flow for OIDC applications. Support for the [Classic Engine][] is still available by setting `useInteractionCodeFlow` to `false`. Visit [Migrating to OIE](https://developer.okta.com/docs/guides/migrate-to-oie/) for more details on migrating to [Identity Engine][].
+The widget will run against the [Identity Engine][] by default, using the [interaction code][] flow for OIDC applications. Support for the [Classic Engine][] is still available by setting the `useClassicEngine` option to `true`. This option, along with support for the [Classic Engine][], will be removed in a future widget version. All customers are encouraged to migrate from the [Classic Engine][] to the [Identity Engine][]. Visit [Migrating to OIE](https://developer.okta.com/docs/guides/migrate-to-oie/) for more details on migrating to [Identity Engine][].
 
-Documentation for configuring the Okta Sign-in Widget for the [interaction code][] flow is in the [README](https://github.com/okta/okta-signin-widget/blob/master/README.md).
+Documentation for configuring the Okta Sign-in Widget using the [interaction code][] flow is in the main [README](https://github.com/okta/okta-signin-widget/blob/master/README.md).
 
 
 ## Migrating from 5.x to 6.x

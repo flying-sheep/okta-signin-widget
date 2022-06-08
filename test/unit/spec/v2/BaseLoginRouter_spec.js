@@ -53,7 +53,7 @@ describe('v2/BaseLoginRouter', function() {
     const baseUrl = 'http://localhost:3000';
     const authParams = {
       issuer: baseUrl,
-      pkce: settings?.useInteractionCodeFlow || false,
+      pkce: settings?.pkce || false,
       clientId: settings?.clientId,
       flow: settings?.flow,
       codeChallenge: settings?.codeChallenge,
@@ -137,7 +137,7 @@ describe('v2/BaseLoginRouter', function() {
     it('clears the recoveryToken (before render)', () => {
       const recoveryToken = 'abc';
       setup({
-        useInteractionCodeFlow: true,
+        pkce: true,
         recoveryToken
       });
       const { router, authClient } = testContext;
@@ -159,7 +159,7 @@ describe('v2/BaseLoginRouter', function() {
     it('clears the otp (before render)', () => {
       const otp = '123456';
       setup({
-        useInteractionCodeFlow: true,
+        pkce: true,
         otp
       });
       const { router } = testContext;
@@ -205,7 +205,7 @@ describe('v2/BaseLoginRouter', function() {
       const globalErrorFn = jest.fn();
       setup({
         globalErrorFn,
-        useInteractionCodeFlow: true,
+        pkce: true,
         stateToken: 'foo',
         proxyIdxResponse: false,
       });

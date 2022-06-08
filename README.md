@@ -86,7 +86,7 @@ See the [Usage Guide](#usage-guide) for more information on how to get started u
     - [issuer](#issuer)
     - [clientId](#clientid)
     - [redirectUri](#redirecturi)
-    - [useInteractionCodeFlow](#useinteractioncodeflow)
+    - [useClassicEngine](#useclassicengine)
     - [codeChallenge](#codechallenge)
     - [state](#state)
     - [otp](#otp)
@@ -708,7 +708,7 @@ If you are using the [default Okta-hosted signin page](#okta-hosted-sign-in-page
 
 If you are using the [custom Okta-hosted signin page](#okta-hosted-sign-in-page-customizable), a configuration object is included on the page which contains all necessary values. You will probably not need to modify this object, but you may use this object as a starting point and add additional customizations.
 
-For embedded widgets, you should set the `issuer`, `clientId`, and `redirectUri`. By default, the widget will run on the  [Identity Engine][] using the  [interaction code][] flow. The widget can also run against the [Classic Engine][] by setting [useInteractionCodeFlow](#useinteractioncodeflow) to `false`. (See [this document](https://github.com/okta/okta-signin-widget/blob/master/docs/classic.md) for more details on running in [Classic Engine][].
+For embedded widgets, you should set the `issuer`, `clientId`, and `redirectUri`. By default, the widget will run on the  [Identity Engine][] using the  [interaction code][] flow. The widget can also run against the [Classic Engine][] by setting the [useClassicEngine](#useClassicEngine) option to `false`. (See [this document](https://github.com/okta/okta-signin-widget/blob/master/docs/classic.md) for more details on running in [Classic Engine][].
 
 ### Basic config options
 
@@ -766,9 +766,11 @@ Client Id of the application.
 
 The URI to use for the [OAuth callback](#oauth-callback).
 
-#### useInteractionCodeFlow
+#### useClassicEngine
 
-Defaults to `true`. Enables the [interaction code][] flow in the widget. This is the only supported authentication method for embedded widgets on the [Identity Engine][]. Setting this value to `false` will cause the widget to run against the [Classic Engine][]. (See [this document](https://github.com/okta/okta-signin-widget/blob/master/docs/classic.md) for more details on running in [Classic Engine][]).
+Defaults to `false`. By default, the widget will use the [interaction code][] flow on the [Identity Engine][]. Setting the `useClassicEngine` option to `true` will cause the widget to run against the [Classic Engine][] instead. (See [this document](https://github.com/okta/okta-signin-widget/blob/master/docs/classic.md) for more details on configuring a widget running in [Classic Engine][]).
+
+This option, along with support for the [Classic Engine][], will be removed in a future widget version. All customers are encouraged to migrate from the [Classic Engine][] to the [Identity Engine][]. Visit [Migrating to OIE](https://developer.okta.com/docs/guides/migrate-to-oie/) for more details on migrating to [Identity Engine][].
 
 #### codeChallenge
 

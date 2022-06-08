@@ -179,7 +179,6 @@ describe('OktaSignIn v2 bootstrap', function() {
         setupLoginFlow({
           clientId: 'someClientId',
           redirectUri: 'http://0.0.0.0:9999',
-          useInteractionCodeFlow: true,
           language: 'en',
           i18n: {
             en: {
@@ -210,7 +209,6 @@ describe('OktaSignIn v2 bootstrap', function() {
         setupLoginFlow({
           clientId: 'someClientId',
           redirectUri: 'http://0.0.0.0:9999',
-          useInteractionCodeFlow: true,
         }, [
           errorFeatureNotEnabled
         ]);
@@ -235,7 +233,6 @@ describe('OktaSignIn v2 bootstrap', function() {
         setupLoginFlow({
           clientId: 'someClientId',
           redirectUri: 'http://0.0.0.0:9999',
-          useInteractionCodeFlow: true
         }, responses);
 
         jest.spyOn(signIn.authClient.transactionManager, 'exists').mockReturnValue(false);
@@ -270,7 +267,6 @@ describe('OktaSignIn v2 bootstrap', function() {
         setupLoginFlow({
           clientId: 'someClientId',
           redirectUri: 'http://0.0.0.0:9999',
-          useInteractionCodeFlow: true,
           flow: 'login'
         }, responses);
 
@@ -306,7 +302,6 @@ describe('OktaSignIn v2 bootstrap', function() {
         setupLoginFlow({
           clientId: 'someClientId',
           redirectUri: 'http://0.0.0.0:9999',
-          useInteractionCodeFlow: true,
           codeChallenge: 'custom',
           codeChallengeMethod: 'custom-method'
         }, responses);
@@ -350,7 +345,6 @@ describe('OktaSignIn v2 bootstrap', function() {
       setupLoginFlow({
         clientId,
         redirectUri,
-        useInteractionCodeFlow: true
       }, [idxResponse]);
 
       const savedInteractionHandle = 'saved-interaction-handle';
@@ -406,7 +400,6 @@ describe('OktaSignIn v2 bootstrap', function() {
         setupLoginFlow({
           clientId,
           redirectUri,
-          useInteractionCodeFlow: true
         }, [
           idxSuccessInteractionCode, 
           // token success
@@ -434,7 +427,6 @@ describe('OktaSignIn v2 bootstrap', function() {
         setupLoginFlow({
           clientId,
           redirectUri,
-          useInteractionCodeFlow: true
         }, [
           // email verify terminal success (flow continued in other tab)
           {
@@ -459,7 +451,6 @@ describe('OktaSignIn v2 bootstrap', function() {
         setupLoginFlow({
           clientId,
           redirectUri,
-          useInteractionCodeFlow: true
         }, [
           // terminal success with a cancel action
           {
@@ -483,7 +474,6 @@ describe('OktaSignIn v2 bootstrap', function() {
         setupLoginFlow({
           clientId,
           redirectUri,
-          useInteractionCodeFlow: true
         }, [
           idxErrorSessionExpired
         ]);
@@ -502,7 +492,6 @@ describe('OktaSignIn v2 bootstrap', function() {
         setupLoginFlow({
           clientId,
           redirectUri,
-          useInteractionCodeFlow: true
         }, [
           idxErrorUserIsNotAssigned
         ]);
@@ -521,7 +510,6 @@ describe('OktaSignIn v2 bootstrap', function() {
         setupLoginFlow({
           clientId,
           redirectUri,
-          useInteractionCodeFlow: true
         }, [
           interactResponse,
           idxVerifyPassword,
