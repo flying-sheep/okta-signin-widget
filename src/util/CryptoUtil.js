@@ -12,6 +12,8 @@
 
 /* global Uint8Array, btoa, atob */
 
+import base64url from './base64url';
+
 const fn = {};
 
 /**
@@ -61,6 +63,6 @@ fn.strToBin = function(str) {
 
 fn.rawStrToBin = function(str) {
   return Uint8Array.from(str, c => c.charCodeAt(0));
-}
+};
 
 export default fn;
