@@ -381,6 +381,15 @@ type SettingsProps = typeof local & typeof derived;
 export default class Settings extends Model {
   authClient:OktaAuth;
 
+  constructor(attributes, options) {
+    // base class constructor will call preinitialize() and initialize() and compute derived properties
+    super(attributes, options);
+
+    // apply languageCode
+    const authClient = this.getAuthClient();
+    this.setAcceptLanguageHeader(authClient);
+  }
+
   get<A extends Backbone._StringKey<SettingsProps>>(attributeName: A): any {
     return Model.prototype.get.call(this, attributeName);
   }
@@ -392,18 +401,17 @@ export default class Settings extends Model {
   }
 
   initialize(options) {
-    const { colors } = options;
-    const { authClient } = options;
-
-    this.setAcceptLanguageHeader(authClient);
-
+    options = options || {};
+    const { colors, authClient } = options;
     let { baseUrl } = options;
+
     if (!baseUrl) {
       // infer baseUrl from the issuer
+      // favor authClient API first
       if (authClient) {
         baseUrl = authClient.getIssuerOrigin();
       } else {
-        // issuer can be passed at top-level or in authParams
+        // issuer can also be passed a a top-level option or exist in authParams
         const { authParams } = options;
         let { issuer } = options;
         issuer = issuer || authParams?.issuer;
