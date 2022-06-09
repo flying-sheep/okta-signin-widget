@@ -106,6 +106,7 @@ describe('OIDC flows', () => {
           baseUrl: WIDGET_TEST_SERVER,
           clientId: WIDGET_SPA_CLIENT_ID,
           redirectUri: 'http://localhost:3000/done',
+          useClassicEngine: true,
           authParams: {
             pkce: true,
             display: 'page',
