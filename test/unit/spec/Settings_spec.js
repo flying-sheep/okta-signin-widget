@@ -2,6 +2,80 @@ import Settings from 'models/Settings';
 
 describe('models/Settings', () => {
 
+  function mockAuthClient(baseUrl) {
+    const authClient = {
+      options: {},
+      http: {
+        setRequestHeader: () => {}
+      },
+      getIssuerOrigin: () => baseUrl
+    };
+    return authClient;
+  }
+
+  describe('baseUrl', () => {
+    it('cannot create settings without a baseUrl', () => {
+      const fn = () => {
+        return new Settings();
+      };
+      expect(fn).toThrowError('"baseUrl" is a required widget parameter');
+    });
+    it('accepts a baseUrl option and sets it in the model', () => {
+      const baseUrl = 'http://foo';
+      const settings = new Settings({ baseUrl });
+      expect(settings.get('baseUrl')).toBe(baseUrl);
+    });
+    it('baseUrl can be inferred from issuer option', () => {
+      const baseUrl = 'http://foo';
+      const issuer = `${baseUrl}/oauth2/default`;
+      const settings = new Settings({ issuer });
+      expect(settings.get('baseUrl')).toBe(baseUrl);
+    });
+    it('baseUrl can be inferred from authClient issuer', () => {
+      const baseUrl = 'http://foo';
+      const authClient = mockAuthClient(baseUrl);
+      const settings = new Settings({ authClient });
+      expect(settings.get('baseUrl')).toBe(baseUrl);
+    });
+  });
+
+  describe('authClient', () => {
+    let testContext;
+    beforeEach(() => {
+      const baseUrl = 'http://foo';
+      const authClient = mockAuthClient(baseUrl);
+      testContext = {
+        authClient,
+        baseUrl
+      };
+    });
+
+    it('can create settings without an authClient', () => {
+      const { baseUrl } = testContext;
+      const fn = () => {
+        return new Settings({ baseUrl });
+      };
+      expect(fn).not.toThrow();
+    });
+    it('accepts an authClient option and sets it in the model', () => {
+      const { authClient } = testContext;
+      const settings = new Settings({ authClient });
+      expect(settings.get('authClient')).toBe(authClient);
+    });
+    it('exposes authClient on the getAuthClient() method', () => {
+      const { authClient } = testContext;
+      const settings = new Settings({ authClient });
+      expect(settings.getAuthClient()).toBe(authClient);
+    });
+    it('can set authClient using the setAuthClient() method', () => {
+      const { authClient, baseUrl } = testContext;
+      const settings = new Settings({ baseUrl });
+      settings.setAuthClient(authClient);
+      expect(settings.getAuthClient()).toBe(authClient);
+      expect(settings.get('authClient')).toBe(authClient);
+    });
+  });
+
   describe('languageCode', () => {
     const setup = (mock=[], options) => {
       const spy = jest.spyOn(navigator, 'languages', 'get').mockImplementation(() => mock);
