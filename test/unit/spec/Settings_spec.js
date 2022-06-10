@@ -1,7 +1,16 @@
 import Settings from 'models/Settings';
 
 describe('models/Settings', () => {
-
+  let testContext;
+  beforeEach(() => {
+    const baseUrl = 'http://foo';
+    const authClient = mockAuthClient(baseUrl);
+    testContext = {
+      authClient,
+      baseUrl
+    };
+  });
+  
   function mockAuthClient(baseUrl) {
     const authClient = {
       options: {},
@@ -31,6 +40,12 @@ describe('models/Settings', () => {
       const settings = new Settings({ issuer });
       expect(settings.get('baseUrl')).toBe(baseUrl);
     });
+    it('baseUrl can be inferred from authParams.issuer option', () => {
+      const baseUrl = 'http://foo';
+      const issuer = `${baseUrl}/oauth2/default`;
+      const settings = new Settings({ authParams: { issuer } });
+      expect(settings.get('baseUrl')).toBe(baseUrl);
+    });
     it('baseUrl can be inferred from authClient issuer', () => {
       const baseUrl = 'http://foo';
       const authClient = mockAuthClient(baseUrl);
@@ -40,16 +55,6 @@ describe('models/Settings', () => {
   });
 
   describe('authClient', () => {
-    let testContext;
-    beforeEach(() => {
-      const baseUrl = 'http://foo';
-      const authClient = mockAuthClient(baseUrl);
-      testContext = {
-        authClient,
-        baseUrl
-      };
-    });
-
     it('can create settings without an authClient', () => {
       const { baseUrl } = testContext;
       const fn = () => {
@@ -73,6 +78,25 @@ describe('models/Settings', () => {
       settings.setAuthClient(authClient);
       expect(settings.getAuthClient()).toBe(authClient);
       expect(settings.get('authClient')).toBe(authClient);
+    });
+  });
+
+  describe('oauth2Enabled', () => {
+    it('is false by default', () => {
+      const { baseUrl } = testContext;
+      const settings = new Settings({ baseUrl });
+      expect(settings.get('oauth2Enabled')).toBe(false);
+    });
+    it('is true if clientId option is set', () => {
+      const { baseUrl } = testContext;
+      const settings = new Settings({ baseUrl, clientId: 'abc' });
+      expect(settings.get('oauth2Enabled')).toBe(true);
+    });
+    it('is true if authClient.options.clientId is set', () => {
+      const { baseUrl, authClient } = testContext;
+      authClient.options.clientId = 'ABC';
+      const settings = new Settings({ baseUrl, authClient });
+      expect(settings.get('oauth2Enabled')).toBe(true);
     });
   });
 

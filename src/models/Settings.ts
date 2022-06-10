@@ -270,16 +270,10 @@ const derived: Record<string, ModelProperty>  = {
         ? defaultCountryCode : 'US';
     },
   },
-  interactionCodeFlow: {
-    deps: ['oauth2Enabled', 'useClassicEngine'],
-    fn: function(oauth2Enabled, useClassicEngine) {
-      return oauth2Enabled && !useClassicEngine;
-    }
-  },
   mode: {
-    deps: ['interactionCodeFlow', 'codeChallenge'],
-    fn: function(interactionCodeFlow, codeChallenge) {
-      if (interactionCodeFlow && codeChallenge) {
+    deps: ['codeChallenge'],
+    fn: function(codeChallenge) {
+      if (codeChallenge) {
         return 'remediation';
       }
       return 'relying-party';
@@ -292,13 +286,6 @@ const derived: Record<string, ModelProperty>  = {
         clientId = authClient.options.clientId;
       }
       return (!!clientId) && authScheme.toLowerCase() === 'oauth2';
-    },
-    cache: true,
-  },
-  oieEnabled: {
-    deps: ['stateToken', 'proxyIdxResponse', 'interactionCodeFlow'],
-    fn: function(stateToken, proxyIdxResponse, interactionCodeFlow) {
-      return stateToken || proxyIdxResponse || interactionCodeFlow;
     },
     cache: true,
   },
@@ -411,7 +398,7 @@ export default class Settings extends Model {
       if (authClient) {
         baseUrl = authClient.getIssuerOrigin();
       } else {
-        // issuer can also be passed a a top-level option or exist in authParams
+        // issuer can also be passed a top-level option or exist in authParams
         const { authParams } = options;
         let { issuer } = options;
         issuer = issuer || authParams?.issuer;

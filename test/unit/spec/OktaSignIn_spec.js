@@ -28,20 +28,13 @@ Expect.describe('OktaSignIn initialization', function() {
     };
   }
 
-  /* eslint jasmine/no-global-setup:0 */
   beforeEach(function() {
-    // jasmine.Ajax.install();
-    // jasmine.Ajax.stubRequest(/https:\/\/foo.com.*/).andReturn({
-    //   status: 200,
-    //   responseText: '',
-    // });
     spyOn(Logger, 'warn');
     signIn = new Widget({
       baseUrl: url,
     });
   });
   afterEach(function() {
-    // jasmine.Ajax.uninstall();
     $sandbox.empty();
   });
 
